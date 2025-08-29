@@ -92,6 +92,18 @@ There is no preference variable for *Fatal* because it exits the script immediat
 - InformationActionPreference
 - SuccessPreference
 
+# Usage
+
+1. Download the Write-Log [module](src/bin/Debug/netstandard2.0/WriteLog.dll)
+2. Open Powershell
+3. Import the module: `Import-Module $HOME\Downloads\WriteLog.dll`
+
+<strong style="color: red;">Important!</strong> The module needs to be imported every time Powershell opens again. To make this more permanent, consider adding step three to your Powershell profile:
+- **For all users**: $PSHOME\Profile.ps1
+- **For your current user**: $HOME\Documents\PowerShell\Profile.ps1
+
+Go to [Microsoft's documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7.5&viewFallbackFrom=powershell-7) for more information.
+
 # Contribution
 
 If you have an idea, issue or want to improve the code, please create a pull request and I will look if I can add this.
