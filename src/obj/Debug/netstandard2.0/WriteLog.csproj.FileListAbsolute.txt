@@ -1,0 +1,10 @@
+/home/stefan/Downloads/WriteLog/WriteLog/src/bin/Debug/netstandard2.0/WriteLog.deps.json
+/home/stefan/Downloads/WriteLog/WriteLog/src/bin/Debug/netstandard2.0/WriteLog.dll
+/home/stefan/Downloads/WriteLog/WriteLog/src/bin/Debug/netstandard2.0/WriteLog.pdb
+/home/stefan/Downloads/WriteLog/WriteLog/src/obj/Debug/netstandard2.0/WriteLog.csproj.AssemblyReference.cache
+/home/stefan/Downloads/WriteLog/WriteLog/src/obj/Debug/netstandard2.0/WriteLog.GeneratedMSBuildEditorConfig.editorconfig
+/home/stefan/Downloads/WriteLog/WriteLog/src/obj/Debug/netstandard2.0/WriteLog.AssemblyInfoInputs.cache
+/home/stefan/Downloads/WriteLog/WriteLog/src/obj/Debug/netstandard2.0/WriteLog.AssemblyInfo.cs
+/home/stefan/Downloads/WriteLog/WriteLog/src/obj/Debug/netstandard2.0/WriteLog.csproj.CoreCompileInputs.cache
+/home/stefan/Downloads/WriteLog/WriteLog/src/obj/Debug/netstandard2.0/WriteLog.dll
+/home/stefan/Downloads/WriteLog/WriteLog/src/obj/Debug/netstandard2.0/WriteLog.pdb
