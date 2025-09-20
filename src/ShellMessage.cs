@@ -1,4 +1,7 @@
 using System;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
+using Microsoft.PowerShell.Commands;
 using static WriteLog.Color;
 
 namespace WriteLog
@@ -12,12 +15,12 @@ namespace WriteLog
         }
 
         // Write a message to the console with optional color
-        public static void Write(string message, Colors color = Colors.Default, bool newLine = true)
+        public static void Write(string message, Colors color = Colors.Default, bool newLine = true, PSCmdlet context = null)
         {
             Color colorCode = new(color);
             if (newLine)
             {
-                Console.WriteLine($"{colorCode.Code}{message}{colorCode.Reset}");
+                context?.WriteObject($"{colorCode.Code}{message}{colorCode.Reset}");
             }
             else
             {

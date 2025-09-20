@@ -5,7 +5,7 @@
   },
   "projects": {
     "/home/stefan/Downloads/WriteLog/WriteLog/src/WriteLog.csproj": {
-      "version": "1.0.0",
+      "version": "1.0.2",
       "restore": {
         "projectUniqueName": "/home/stefan/Downloads/WriteLog/WriteLog/src/WriteLog.csproj",
         "projectName": "WriteLog",

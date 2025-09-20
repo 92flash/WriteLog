@@ -70,7 +70,7 @@ namespace WriteLog
             string psVariablePreference = moduleContext?.GetVariableValue(actionPreference)?.ToString() ?? "Continue";
             if (!(psVariablePreference == "SilentlyContinue" || psVariablePreference == "Ignore"))
             {
-                ShellMessage.Write(message, color);
+                ShellMessage.Write(message, color, context: moduleContext);
             }
         }
 
@@ -146,16 +146,16 @@ namespace WriteLog
         }
 
         // Method to simulate the inquire of Powershell
-        private static string ReadInquire()
+        private string ReadInquire()
         {
-            ShellMessage.Write("\nConfirm", Colors.White);
-            ShellMessage.Write("Continue with this operation?");
+            ShellMessage.Write("\nConfirm", Colors.White, context: moduleContext);
+            ShellMessage.Write("Continue with this operation?", context: moduleContext);
             string continueOperation;
             do
             {
-                ShellMessage.Write("[Y] Yes  ", Colors.Yellow, false);
-                ShellMessage.Write("[A] Yes to All  [H] Halt Command  [S] Suspend  ", Colors.White, false);
-                ShellMessage.Write("[?] Help (default is \"Y\"): ", newLine: false);
+                ShellMessage.Write("[Y] Yes  ", Colors.Yellow, false, context: moduleContext);
+                ShellMessage.Write("[A] Yes to All  [H] Halt Command  [S] Suspend  ", Colors.White, false, context: moduleContext);
+                ShellMessage.Write("[?] Help (default is \"Y\"): ", newLine: false, context: moduleContext);
                 continueOperation = Console.ReadLine().ToUpper();
                 if (string.IsNullOrEmpty(continueOperation))
                 {
