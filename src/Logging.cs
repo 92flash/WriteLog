@@ -74,10 +74,8 @@ namespace WriteLog
                         Directory.CreateDirectory(directory);
                     }
 
-                    logFile = File.Create(LogPath);
-                    logFile.Flush();
-                    logFile.Dispose();
-                    logFile.Close();
+                    // Create an empty file and close it immediately to ensure no lingering lock.
+                    using var fs = File.Create(LogPath);
                 }
                 catch (Exception ex)
                 {
@@ -89,8 +87,24 @@ namespace WriteLog
             // Open the logfile
             try
             {
-                logFile = new FileStream(LogPath, FileMode.Append, FileAccess.Write);
-                IsOpen = true;
+                // Try to open the file for append; allow others to read it.
+                const int maxAttempts = 5;
+                int attempt = 0;
+                while (true)
+                {
+                    try
+                    {
+                        logFile = new FileStream(LogPath, FileMode.Append, FileAccess.Write, FileShare.Read);
+                        IsOpen = true;
+                        break;
+                    }
+                    catch (IOException)
+                    {
+                        attempt++;
+                        if (attempt >= maxAttempts) throw;
+                        System.Threading.Thread.Sleep(100);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -133,14 +147,54 @@ namespace WriteLog
         // Find the first match in the logfile
         public bool FindMatch(string match, bool reverse = false)
         {
-            string[] lines = reverse ? File.ReadAllLines(LogPath).Reverse().ToArray() : File.ReadAllLines(LogPath);
-            for (int i = 0; i < lines.Length; i++)
+            try
             {
-                if (lines[i].Contains(match))
+                if (!File.Exists(LogPath)) return false;
+
+                string[] lines;
+                string content;
+
+                // If the current FileStream supports reading, read from it without closing.
+                if (logFile != null && logFile.CanRead)
                 {
-                    return true;
+                    lock (logFile)
+                    {
+                        // Ensure all written data is visible to readers.
+                        logFile.Flush();
+
+                        // Remember current position (likely end for append), then seek to start to read.
+                        long originalPos = logFile.Position;
+                        logFile.Seek(0, SeekOrigin.Begin);
+
+                        using var reader = new StreamReader(logFile, System.Text.Encoding.UTF8, true, 1024, leaveOpen: true);
+                        content = reader.ReadToEnd();
+
+                        // Restore the original position so writers aren't affected.
+                        logFile.Seek(originalPos, SeekOrigin.Begin);
+                    }
+                }
+                else
+                {
+                    // Fall back to opening a separate read stream that allows reading while the writer has the file open.
+                    using var fs = new FileStream(LogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    using var reader = new StreamReader(fs);
+                    content = reader.ReadToEnd();
+                }
+                
+                lines = reverse
+                ? content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).Reverse().ToArray()
+                : content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+                foreach (var line in lines)
+                {
+                    if (line.Contains(match)) return true;
                 }
             }
+            catch (Exception)
+            {
+                return false;
+            }
+
             return false;
         }
 

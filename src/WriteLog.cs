@@ -6,7 +6,7 @@ using static WriteLog.Logging;
 
 namespace WriteLog
 {
-    [Cmdlet(VerbsCommunications.Write,"Log")]
+    [Cmdlet(VerbsCommunications.Write, "Log")]
     public class WriteLogCommand : PSCmdlet
     {
         [Parameter(
@@ -30,12 +30,12 @@ namespace WriteLog
             HelpMessage = "Set the path for the logfile with the file and extention at the end of the path"
         )]
         public string LogPath
-    	{ 
-            get 
+        {
+            get
             {
                 return Environment.GetEnvironmentVariable("LogPath");
-            } 
-            set 
+            }
+            set
             {
                 Environment.SetEnvironmentVariable("LogPath", value);
             }
@@ -51,12 +51,12 @@ namespace WriteLog
         )]
         [ValidateSet("Default", "KeepAlive", "Close", IgnoreCase = true)]
         public string LoggingMode
-    	{ 
-            get 
-            {
+        {
+            get
+            { 
                 return Environment.GetEnvironmentVariable("LoggingMode");
-            } 
-            set 
+            }
+            set
             {
                 Environment.SetEnvironmentVariable("LoggingMode", value);
             }
@@ -192,7 +192,7 @@ namespace WriteLog
             {
                 Log(Message, Type, NoDetails);
             }
-            
+
         }
 
         // This method will be called once at the end of pipeline execution; if no input is received, this method is not called
